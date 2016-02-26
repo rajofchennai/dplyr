@@ -1,3 +1,4 @@
+My change
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 dplyr
 =====
@@ -67,7 +68,7 @@ library(dplyr) # for functions
 library(nycflights13) # for data
 flights
 #> Source: local data frame [336,776 x 16]
-#> 
+#>
 #>     year month   day dep_time dep_delay arr_time arr_delay carrier tailnum
 #>    (int) (int) (int)    (int)     (dbl)    (int)     (dbl)   (chr)   (chr)
 #> 1   2013     1     1      517         2      830        11      UA  N14228
@@ -114,13 +115,13 @@ They work across the range of data sources. The main difference is their perform
 
 ``` r
 system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
-#>    user  system elapsed 
+#>    user  system elapsed
 #>   0.036   0.001   0.037
 system.time(carriers_db1 %>% summarise(delay = mean(arr_delay)) %>% collect())
-#>    user  system elapsed 
+#>    user  system elapsed
 #>   0.263   0.130   0.392
 system.time(carriers_db2 %>% summarise(delay = mean(arr_delay)) %>% collect())
-#>    user  system elapsed 
+#>    user  system elapsed
 #>   0.016   0.001   0.151
 ```
 
@@ -129,7 +130,7 @@ Data frame methods are much much faster than their plyr equivalents. The databas
 ``` r
 system.time(plyr::ddply(flights, "carrier", plyr::summarise,
   delay = mean(arr_delay, na.rm = TRUE)))
-#>    user  system elapsed 
+#>    user  system elapsed
 #>   0.100   0.032   0.133
 ```
 
@@ -140,14 +141,14 @@ As well as the specialised operations described above, `dplyr` also provides a g
 Let's take the batting database from the built-in Lahman database. We'll group it by year, and then fit a model to explore the relationship between the number of at bats and runs:
 
 ``` r
-by_year <- lahman_df() %>% 
+by_year <- lahman_df() %>%
   tbl("Batting") %>%
   group_by(yearID)
-by_year %>% 
+by_year %>%
   do(mod = lm(R ~ AB, data = .))
 #> Source: local data frame [143 x 2]
 #> Groups: <by row>
-#> 
+#>
 #>    yearID     mod
 #>     (int)   (chr)
 #> 1    1871 <S3:lm>
@@ -166,13 +167,13 @@ by_year %>%
 Note that if you are fitting lots of linear models, it's a good idea to use `biglm` because it creates model objects that are considerably smaller:
 
 ``` r
-by_year %>% 
+by_year %>%
   do(mod = lm(R ~ AB, data = .)) %>%
   object.size() %>%
   print(unit = "MB")
 #> 22.2 Mb
 
-by_year %>% 
+by_year %>%
   do(mod = biglm::biglm(R ~ AB, data = .)) %>%
   object.size() %>%
   print(unit = "MB")
